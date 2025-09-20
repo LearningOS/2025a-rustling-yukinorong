@@ -40,10 +40,24 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of
 // Person Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        let counts = s.split(",").count();
+        let count = s.split(",").filter(|&x| x!= "").count();
+        if count != 2 || counts != 2 {
+            return Person::default();
+        }
+        let mut ss = s.split(",");
+
+        if let Some(sname) = ss.next() {
+            if let Some(sage) = ss.next() {
+                if let Ok(page) = sage.parse() {
+                    return Person {name:sname.to_string(), age:page};
+                }                
+            }
+        }
+        Person::default()
     }
 }
 
